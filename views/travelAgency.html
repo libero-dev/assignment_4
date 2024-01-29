@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Travel Agency - Discover tours</title>
+  <style>
+    body {
+      padding-top: 56px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #f0f0f0;
+      /* Placeholder background color */
+      color: #333;
+      /* Placeholder text color */
+    }
+
+    .card {
+      width: 100%;
+    }
+
+    .tour-form {
+      margin-top: 20px;
+    }
+
+    .result-container {
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f8f9fa;
+    }
+
+    .footer {
+      margin-top: auto;
+      background-color: #343a40;
+      /* Placeholder background color */
+      padding: 20px;
+      color: #fff;
+      /* Placeholder text color */
+    }
+
+    #tourDetails {
+      margin-top: 20px;
+    }
+
+    #clearHistoryBtn {
+      margin-top: 10px;
+      /* Отступ сверху */
+      margin-left: 0;
+      /* Убран отступ слева */
+    }
+
+
+  </style>
+</head>
+
+<body>
+
+
+  
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="/">Travel Agency</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/travelagency">Discover tours</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <h2 style="color: #007bff;">Browse and calculate your tour details</h2>
+    <form id="tourForm" class="tour-form">
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="country">Country:</label>
+          <select class="form-control" id="country" name="country" required>
+            <option value="" selected disabled>Select Country</option>
+            <option value="USA">United States</option>
+            <option value="France">France</option>
+            <option value="Japan">Japan</option>
+            <option value="Australia">Australia</option>
+            <option value="Brazil">Brazil</option>
+            <!-- Add more countries as needed -->
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="city">City:</label>
+          <select class="form-control" id="city" name="city" required>
+            <!-- Options for cities based on the selected country -->
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="hotel">Hotel:</label>
+          <select class="form-control" id="hotel" name="hotel" required>
+            <option value="" selected disabled>Select Hotel Rating</option>
+            <option value="1">1 Star</option>
+            <option value="2">2 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="5">5 Stars</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="arrivalDate">Arrival Date:</label>
+          <input type="date" class="form-control" id="arrivalDate" name="arrivalDate" required>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="departureDate">Departure Date:</label>
+          <input type="date" class="form-control" id="departureDate" name="departureDate" required>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="adults">Adults:</label>
+          <input type="number" class="form-control" id="adults" name="adults" min="1" required>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="children">Children:</label>
+          <input type="number" class="form-control" id="children" name="children" min="0" required>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-primary" style="background-color: #007bff;" onclick="showTour()">Show
+        Tour</button>
+    </form>
+
+    <div class="mt-4 result-container" id="tourResult">
+      <!-- Tour result container will be dynamically added here -->
+    </div>
+
+    <div class="mt-4 result-container" id="tourDetails" style="display: none;">
+      <!-- Tour details will be dynamically added here -->
+      <h3>Tour Details</h3>
+      <p id="tourInfo"></p>
+      <img id="cityImage" src="" alt="City Image" style="max-width: 100%; height: auto;">
+      <!-- Weather information will be added here using API in the future -->
+
+      <!-- Кнопка "Calculate Price" -->
+      <button type="button" class="btn btn-primary mt-2" id="calculatePriceBtn" onclick="calculatePrice()">Calculate
+        Price</button>
+    </div>
+    <div id="historyContainer" class="mt-4 result-container"></div>
+
+    <!-- Здесь будет отображаться история туров -->
+    <button type="button" class="btn btn-danger" id="clearHistoryBtn" onclick="clearHistory()">Delete Tour
+      History</button>
+
+
+
+  </div>
+
+
+
+  <!-- ... (ваш текущий код) ... -->
+
+
+
+  <!-- Footer -->
+  <footer class="footer text-center">
+    <p>© 2024 Kalybekov Sultan Beibarys | SE-2209</p>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    function saveToHistory(tourDetails) {
+      console.log('Saving to history:', tourDetails);
+
+  const timestamp = new Date().toLocaleString();
+  const tourHistoryItem = {
+    timestamp: timestamp,
+    details: tourDetails
+  };
+
+  let tourHistory = JSON.parse(localStorage.getItem('tourHistory')) || [];
+  tourHistory.push(tourHistoryItem);
+  localStorage.setItem('tourHistory', JSON.stringify(tourHistory));
+
+  // Проверка текущего состояния Local Storage
+  console.log('Current Local Storage:', localStorage.getItem('tourHistory'));
+}
+    // Функция для отображения истории на странице
+    function displayHistory() {
+  console.log('Displaying history');
+
+  const tourHistory = JSON.parse(localStorage.getItem('tourHistory')) || [];
+  console.log('Fetched History from Local Storage:', tourHistory);
+
+  const historyContainer = document.getElementById('historyContainer');
+  historyContainer.innerHTML = '<h2>Tour History</h2>';
+
+  if (tourHistory.length === 0) {
+    historyContainer.innerHTML += '<p>No tour history available.</p>';
+  } else {
+    // Используем фрагмент HTML для улучшения производительности
+    const fragment = document.createDocumentFragment();
+
+    tourHistory.forEach(item => {
+      const historyItem = document.createElement('div');
+      historyItem.classList.add('history-item');
+      historyItem.innerHTML = `
+        <p><strong>${item.timestamp}:</strong></p>
+        <p>${item.details}</p>
+      `;
+
+      fragment.appendChild(historyItem);
+    });
+
+    // Добавляем фрагмент в контейнер
+    historyContainer.appendChild(fragment);
+  }
+}
+
+
+    // Вызов функции отображения истории при загрузке страницы
+    window.onload = function () {
+      displayHistory();
+    };
+
+
+
+
+    function calculatePrice() {
+      // Добавьте здесь логику для расчета стоимости тура
+      alert('Placeholder: Implement the logic for calculating tour price.');
+    }
+
+    let cityImageUrl = 'https://via.placeholder.com/800x400';
+
+
+    function showTour() {
+      const country = document.getElementById('country').value;
+      const city = document.getElementById('city').value;
+      const hotelRating = document.getElementById('hotel').value;
+      const arrivalDate = document.getElementById('arrivalDate').value;
+      const departureDate = document.getElementById('departureDate').value;
+      const adults = document.getElementById('adults').value;
+      const children = document.getElementById('children').value;
+
+      // Проверка наличия значений во всех полях
+      if (!country || !city || !hotelRating || !arrivalDate || !departureDate || !adults || !children) {
+        alert('Please fill in all fields before showing the tour.');
+        return;
+      }
+
+      // Отображение информации о туре
+      const tourDetailsContainer = document.getElementById('tourDetails');
+      tourDetailsContainer.style.display = 'block';
+
+      // Отображение краткой информации о туре
+      const tourInfo = document.getElementById('tourInfo');
+      tourInfo.innerHTML = `Country: ${country}<br>City: ${city}<br>Hotel Rating: ${hotelRating} Stars<br>Arrival Date: ${arrivalDate}<br>Departure Date: ${departureDate}<br>Adults: ${adults}<br>Children: ${children}`;
+
+      // Отображение картинки города (замените на реальный URL изображения)
+      const cityImage = document.getElementById('cityImage');
+     
+
+    switch (city) {
+      case 'New York':
+        cityImageUrl = 'images/new_york.jpg'; // Замените на реальный URL изображения для Нью-Йорка
+        break;
+      case 'Paris':
+        cityImageUrl = 'images/paris.jpg'; // Замените на реальный URL изображения для Парижа
+        break;
+      case 'Tokyo':
+        cityImageUrl = 'images/tokyo.jpg'; // Замените на реальный URL изображения для Токио
+        break;
+      case 'Sydney':
+        cityImageUrl = 'images/sydney.jpg'; // Замените на реальный URL изображения для Сиднея
+        break;
+      case 'Salvador':
+        cityImageUrl = 'images/salvador.jpg'; // Замените на реальный URL изображения для Сальвадора
+        break;
+      default:
+      cityImage.src = 'https://via.placeholder.com/800x400'; // Заглушка, если нет соответствия города
+    }
+
+    cityImage.src = cityImageUrl;
+
+      // В будущем здесь можно добавить информацию о погоде через API
+
+      // Запрос к OpenWeatherMap API для получения температуры погоды
+      const apiKey = '7156bc9162d307fa166b4edb4ea49c72';
+      const weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+      fetch(weatherApiUrl)
+        .then(response => response.json())
+        .then(data => {
+          // Добавление контейнера с заголовком для информации о погоде
+          const weatherContainer = document.createElement('div');
+          weatherContainer.innerHTML = '<h4>Weather Information</h4>';
+
+          // Отображение температуры погоды и краткого описания
+          const temperature = data.main.temp;
+          const description = data.weather[0].description;
+
+          const weatherInfo = document.createElement('p');
+          weatherInfo.innerHTML = `Temperature: ${temperature}°C<br>Weather: ${description}`;
+          weatherContainer.appendChild(weatherInfo);
+
+          // Добавление мини-виджетов
+          const widgetsContainer = document.createElement('div');
+          widgetsContainer.innerHTML = `
+            <p>Wind: ${data.wind.speed} m/s</p>
+            <p>Humidity: ${data.main.humidity}%</p>
+            <p>Pressure: ${data.main.pressure} hPa</p>
+            <p>Weather Icon:</p>
+            <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}.png" alt="Weather Icon">
+          `;
+          weatherContainer.appendChild(widgetsContainer);
+
+          // Добавление контейнера с информацией о погоде к общей информации о туре
+          tourInfo.appendChild(weatherContainer);
+        })
+        .catch(error => {
+          console.error('Error fetching weather data:', error);
+        });
+
+      const calculatePriceBtn = document.getElementById('calculatePriceBtn');
+      calculatePriceBtn.style.display = 'block';
+    }
+
+    document.getElementById('country').addEventListener('change', function () {
+      const country = this.value;
+      const cityDropdown = document.getElementById('city');
+      cityDropdown.innerHTML = ''; // Очистить существующие варианты
+
+      if (country === 'USA') {
+        addCityOption(cityDropdown, 'New York', 'New York');
+      } else if (country === 'France') {
+        addCityOption(cityDropdown, 'Paris', 'Paris');
+      } else if (country === 'Japan') {
+        addCityOption(cityDropdown, 'Tokyo', 'Tokyo');
+      } else if (country === 'Australia') {
+        addCityOption(cityDropdown, 'Sydney', 'Sydney');
+      } else if (country === 'Brazil') {
+        addCityOption(cityDropdown, 'Salvador', 'Salvador');
+      } else {
+        cityDropdown.innerHTML = '<option value="" selected disabled>No cities available</option>';
+      }
+    });
+
+    // Функция для добавления варианта города в выпадающий список
+    function addCityOption(selectElement, value, text) {
+      const option = document.createElement('option');
+      option.value = value;
+      option.text = text;
+      selectElement.appendChild(option);
+    }
+
+
+
+    function calculatePrice() {
+      const country = document.getElementById('country').value;
+      const city = document.getElementById('city').value;
+      const hotelRating = document.getElementById('hotel').value;
+      const arrivalDate = document.getElementById('arrivalDate').value;
+      const departureDate = document.getElementById('departureDate').value;
+      const adults = document.getElementById('adults').value;
+      const children = document.getElementById('children').value;
+
+      // Проверка наличия значений во всех полях
+      if (!country || !city || !hotelRating || !arrivalDate || !departureDate || !adults || !children) {
+        alert('Please fill in all fields before showing the tour.');
+        return;
+      }
+
+      // Отображение информации о туре
+      const tourDetailsContainer = document.getElementById('tourDetails');
+      tourDetailsContainer.style.display = 'block';
+
+      // Отображение краткой информации о туре
+      const tourInfo = document.getElementById('tourInfo');
+      tourInfo.innerHTML = `Country: ${country}<br>City: ${city}<br>Hotel Rating: ${hotelRating} Stars<br>Arrival Date: ${arrivalDate}<br>Departure Date: ${departureDate}<br>Adults: ${adults}<br>Children: ${children}`;
+
+      // Отображение картинки города (замените на реальный URL изображения)
+      const cityImage = document.getElementById('cityImage');
+      cityImage.src = 'https://via.placeholder.com/800x400';
+      cityImage.src = cityImageUrl;
+
+
+      // В будущем здесь можно добавить информацию о погоде через API
+
+      // Симуляция логики расчета стоимости тура
+      const basePricePerPerson = 100; // Базовая стоимость за одного человека
+      const additionalChildDiscount = 0.5; // Скидка для детей
+      const hotelRatingMultiplier = 1.2; // Множитель для стоимости в зависимости от рейтинга отеля
+
+      const totalAdultsPrice = adults * basePricePerPerson;
+      const totalChildrenPrice = children * basePricePerPerson * (1 - additionalChildDiscount);
+      const totalHotelPrice = hotelRating * hotelRatingMultiplier;
+
+      const totalPrice = totalAdultsPrice + totalChildrenPrice + totalHotelPrice;
+
+      // Отображение результатов расчета стоимости тура на текущей странице
+      const priceResultContainer = document.getElementById('tourResult');
+      priceResultContainer.innerHTML = `
+      <h3>Total Tour Price</h3>
+      <p>Total Adults Price: $${totalAdultsPrice}</p>
+      <p>Total Children Price: $${totalChildrenPrice}</p>
+      <p>Total Hotel Price: $${totalHotelPrice}</p>
+      <p><strong>Total Price: $${totalPrice}</strong></p>
+
+      <button type="button" class="btn btn-success mt-2" onclick="bookNow()">Book Now</button>
+    `;
+    }
+
+    function bookNow() {
+      const country = document.getElementById('country').value;
+      const city = document.getElementById('city').value;
+      const hotelRating = document.getElementById('hotel').value;
+      const arrivalDate = document.getElementById('arrivalDate').value;
+      const departureDate = document.getElementById('departureDate').value;
+      const adults = document.getElementById('adults').value;
+      const children = document.getElementById('children').value;
+
+      // Проверка наличия значений во всех полях
+      if (!country || !city || !hotelRating || !arrivalDate || !departureDate || !adults || !children) {
+        alert('Please fill in all fields before booking the tour.');
+        return;
+      }
+
+      // Формирование информации о туре
+      const tourDetails = `Country: ${country}, City: ${city}, Hotel Rating: ${hotelRating} Stars, Arrival Date: ${arrivalDate}, Departure Date: ${departureDate}, Adults: ${adults}, Children: ${children}`;
+
+      // Сохранение информации о туре в Local Storage
+      saveToHistory(tourDetails);
+
+      // Отображение обновленной истории на странице
+      displayHistory();
+
+      alert('Tour booked successfully!');
+    }
+
+    function clearHistory() {
+      // Очистка Local Storage
+      localStorage.removeItem('tourHistory');
+
+      // Обновление отображения истории на странице
+      displayHistory();
+    }
+
+
+
+
+  </script>
+
+</body>
+
+</html>

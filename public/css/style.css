@@ -1,0 +1,10 @@
+/* Add your custom styles here */
+body {
+    padding-top: 56px; /* Adjust based on your navbar height */
+  }
+  
+  footer {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+  }
+  
