@@ -161,6 +161,7 @@
 
   </div>
 
+  
 
 
 
@@ -230,7 +231,7 @@
       displayHistory();
     };
 
-
+    
 
 
     function calculatePrice() {
@@ -262,7 +263,7 @@
 
 
       const tourInfo = document.getElementById('tourInfo');
-      tourInfo.innerHTML = `Country: ${country}<br>City: ${city}<br>Hotel Rating: ${hotelRating} Stars<br>Arrival Date: ${arrivalDate}<br>Departure Date: ${departureDate}<br>Adults: ${adults}<br>Children: ${children}`;
+      tourInfo.innerHTML = `<h4>Tour details</h4>Country: ${country}<br>City: ${city}<br>Hotel Rating: ${hotelRating} Stars<br>Arrival Date: ${arrivalDate}<br>Departure Date: ${departureDate}<br>Adults: ${adults}<br>Children: ${children}`;
 
 
       const cityImage = document.getElementById('cityImage');
@@ -379,7 +380,7 @@
       tourDetailsContainer.style.display = 'block';
 
       const tourInfo = document.getElementById('tourInfo');
-      tourInfo.innerHTML = `Country: ${country}<br>City: ${city}<br>Hotel Rating: ${hotelRating} Stars<br>Arrival Date: ${arrivalDate}<br>Departure Date: ${departureDate}<br>Adults: ${adults}<br>Children: ${children}`;
+      tourInfo.innerHTML = `<h4>Tour details</h4> Country: ${country}<br>City: ${city}<br>Hotel Rating: ${hotelRating} Stars<br>Arrival Date: ${arrivalDate}<br>Departure Date: ${departureDate}<br>Adults: ${adults}<br>Children: ${children}`;
 
       const cityImage = document.getElementById('cityImage');
       cityImage.src = 'https://via.placeholder.com/800x400';
@@ -439,6 +440,7 @@
     }
 
 
+  
 
 
   </script>
