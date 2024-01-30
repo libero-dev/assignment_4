@@ -13,7 +13,7 @@ router.route('/')
 
 
 function calculateTour(data) {
-
+ 
   const tourResult = {
     cost: 500,
     weather: 'Sunny',
@@ -22,6 +22,5 @@ function calculateTour(data) {
   return tourResult;
 }
 
-module.exports = router;
-module.exports = { calculateTour };
+module.exports = {router, calculateTour};
 
