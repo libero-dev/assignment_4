@@ -5,24 +5,23 @@ const moment = require('moment');
 const app = express();
 const port = 3000;
 
-// Middleware
+
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
-// History array to store recently selected tours
 const tourHistory = [];
 
-// Function to get tourHistory
+
 const getTourHistory = () => {
   return tourHistory;
 };
 
-// Home Page Route
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-// Travel Agency Route
+
 app.route('/travelagency')
   .get((req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'travelagency.html'));
@@ -66,7 +65,7 @@ async function fetchRandomInfo(city) {
   const infoSources = [
     'https://api.example1.com/info',
     'https://api.example2.com/info',
-    // Add more sources if needed
+    
   ];
 
   const randomSource = infoSources[Math.floor(Math.random() * infoSources.length)];
@@ -85,7 +84,7 @@ async function fetchRandomInfo(city) {
   }
 }
 
-// Start server
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
