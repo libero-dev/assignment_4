@@ -5,22 +5,18 @@ const moment = require('moment');
 const app = express();
 const port = 3000;
 
-
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 const tourHistory = [];
 
-
 const getTourHistory = () => {
   return tourHistory;
 };
 
-
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
-
 
 app.route('/travelagency')
   .get((req, res) => {
@@ -34,6 +30,12 @@ app.route('/travelagency')
     });
     res.send(result);
   });
+
+app.get('/history', (req, res) => {
+  console.log('Fetching tour history from server');
+  const history = getTourHistory();
+  res.json(history);
+});
 
 async function calculateTour(data) {
   try {
@@ -54,7 +56,9 @@ async function calculateTour(data) {
       message: 'Enjoy your tour to a beautiful destination!',
     };
 
+    displayTourResult(tourResult);
     return tourResult;
+
   } catch (error) {
     console.error('Error in calculateTour:', error);
     return { error: 'An error occurred during tour calculation.' };
@@ -65,7 +69,6 @@ async function fetchRandomInfo(city) {
   const infoSources = [
     'https://api.example1.com/info',
     'https://api.example2.com/info',
-    
   ];
 
   const randomSource = infoSources[Math.floor(Math.random() * infoSources.length)];
@@ -83,7 +86,6 @@ async function fetchRandomInfo(city) {
     return null;
   }
 }
-
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
